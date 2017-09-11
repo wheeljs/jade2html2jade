@@ -78,13 +78,13 @@
 
   Writer = (function() {
     function Writer(options) {
-      var _ref, _ref1;
+      var _ref, _ref1, _ref2;
       if (options == null) {
         options = {};
       }
       this.wrapLength = (_ref = options.wrapLength) != null ? _ref : 80;
       this.scalate = (_ref1 = options.scalate) != null ? _ref1 : false;
-      this.attrSep = this.scalate ? ' ' : ', ';
+      this.attrSep = this.scalate || options.noattrcomma ? ' ' : ', ';
       if (options.double) {
         this.attrQuote = '"';
         this.nonAttrQuote = "'";
@@ -93,6 +93,7 @@
         this.nonAttrQuote = '"';
       }
       this.attrQuoteEscaped = "\\" + this.attrQuote;
+      this.noEmptyPipe = (_ref2 = options.noemptypipe) != null ? _ref2 : false;
     }
 
     Writer.prototype.tagHead = function(node) {
@@ -225,6 +226,9 @@
       wrap = (_ref2 = options.wrap) != null ? _ref2 : true;
       encodeEntityRef = (_ref3 = options.encodeEntityRef) != null ? _ref3 : false;
       escapeBackslash = (_ref4 = options.escapeBackslash) != null ? _ref4 : false;
+      if (pipe && this.noEmptyPipe && line.trim().length === 0) {
+        return;
+      }
       prefix = pipe ? '| ' : '';
       if ((node != null ? (_ref5 = node.previousSibling) != null ? _ref5.nodeType : void 0 : void 0) !== 1) {
         line = line.trimLeft();
@@ -661,15 +665,17 @@
   scope.Writer = Writer;
 
   applyOptions = function(options) {
-    entOptions.useNamedReferences = !options.numeric;
-    if (options.nspaces) {
-      nspaces = options.nspaces;
+    if (options.numeric != null) {
+      entOptions.useNamedReferences = !options.numeric;
     }
-    if (options.tabs) {
-      useTabs = true;
+    if (options.nspaces != null) {
+      nspaces = parseInt(options.nspaces);
     }
-    if (options.donotencode) {
-      return doNotEncode = true;
+    if (options.tabs != null) {
+      useTabs = !!options.tabs;
+    }
+    if (options.donotencode != null) {
+      return doNotEncode = !!options.donotencode;
     }
   };
 

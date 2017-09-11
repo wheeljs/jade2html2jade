@@ -53,7 +53,7 @@ class Writer
   constructor: (options = {}) ->
     @wrapLength = options.wrapLength ? 80
     @scalate = options.scalate ? false
-    @attrSep =if @scalate then ' ' else ', '
+    @attrSep =if @scalate or options.noattrcomma then ' ' else ', '
     if options.double
       @attrQuote = '"'
       @nonAttrQuote = "'"
@@ -61,6 +61,7 @@ class Writer
       @attrQuote = "'"
       @nonAttrQuote = '"'
     @attrQuoteEscaped = "\\#{@attrQuote}"
+    @noEmptyPipe = options.noemptypipe ? false
   tagHead: (node) ->
     result = if node.tagName isnt 'DIV' then node.tagName.toLowerCase() else ''
     if node.id and isValidJadeId(node.id)
@@ -146,6 +147,7 @@ class Writer
     wrap = options.wrap ? true
     encodeEntityRef = options.encodeEntityRef ? false
     escapeBackslash = options.escapeBackslash ? false
+    return if pipe and @noEmptyPipe and line.trim().length is 0
     prefix = if pipe then '| ' else ''
     line = line.trimLeft() unless node?.previousSibling?.nodeType is 1
     line = line.trimRight() unless node?.nextSibling?.nodeType is 1
@@ -429,10 +431,10 @@ scope.Converter = Converter
 scope.Writer = Writer
 
 applyOptions = (options) ->
-  entOptions.useNamedReferences = !options.numeric
-  nspaces = options.nspaces if options.nspaces
-  useTabs = true if options.tabs
-  doNotEncode = true if options.donotencode
+  entOptions.useNamedReferences = !options.numeric if options.numeric?
+  nspaces = parseInt(options.nspaces) if options.nspaces?
+  useTabs = !!options.tabs if options.tabs?
+  doNotEncode = !!options.donotencode if options.donotencode?
 
 # node.js classes
 if exports?

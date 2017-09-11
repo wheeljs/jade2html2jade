@@ -9,7 +9,16 @@ Mostly usable but sometimes requires fixing up, usually involving conditionals a
 
 While converting a fairly complicated theme package with ~20 HTML files, I had to hand-edit just twice.
 
-**NOT** compatiable with Node.js 0.11.x. Last time I checked, incompatibility stems from `jsdom` module used by this tool.
+Compatible with Node.js 4.0+ (verified with v4.2.4) but likely **NOT** with Node.js 0.11.x, 0.12.x, and io.js.
+
+**WANTED: I am looking for someone to take over maintenance of this tool.**
+
+While maintenance duty is very light, I think relative popularity of this tool deserves a developer who can
+invest enough effort to take it to the next level: fully automated conversion. Besides, the code could use
+a little brushing up as it was my first CoffeeScript project and architecture is rather half-hatched and
+half-patched.
+
+If you are interested, please ping me via email in my Github profile.
 
 ## Requirements
 
@@ -55,6 +64,8 @@ To generate [Scalate](http://scalate.fusesource.org/) compatible output:
 * `--bodyless` - do not output enveloping html and body tags
 * `--numeric` - use numeric character entities
 * `-s, --scalate` - generate [Scalate](http://scalate.fusesource.org/) variant of jade syntax
+* `--noattrcomma` - omit attribute separating commas
+* `--noemptypipe` - omit lines with only pipe ('|') printable character
 
 ## Programmatic Usage (>= 0.0.7)
 
@@ -87,6 +98,8 @@ to avoid generating invalid Jade files.
 There is a [web version](http://html2jade.aaron-powell.com/) of `html2jade`,
 kindly provided by [@aaronpowell](https://github.com/aaronpowell).
 
+Pascal Garber's [jade2html2jade](https://github.com/JumpLink/jade2html2jade) does roundtrip from jade to HTML and back. [Online demo](http://jumplink.github.io/jade2html2jade/).
+
 ### Linux tray app ###
 
 [Miniclip](http://myguidingstar.github.com/miniclip/) is a Linux tray app that quickly converts
@@ -97,3 +110,10 @@ HTML to Jade, CSS to Stylus and JS to Coffee from clipboard.
 As of version 0.4, there is a simple unit test that converts HTML files in `test/data` directory
 and compare them against Jade files in the same directory. Unit test harness requires `coffee-script`
 and `mocha` to be installed globally. Run the tests with command `npm test`.
+
+
+## Useful forks ##
+
+If you're having issues with `br` line-breaks which apparently Jade has some problems with,
+try [@smaudet](https://github.com/smaudet)'s
+[`fix-breaklines`](https://github.com/smaudet/html2jade/tree/fix-breaklines) branch.
