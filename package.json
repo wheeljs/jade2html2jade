@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/JumpLink/jade2html2jade/issues"
   },
-  "homepage": "https://github.com/JumpLink/jade2html2jade"
+  "homepage": "https://github.com/JumpLink/jade2html2jade",
+  "dependencies": {
+    "http-server": "^0.10.0"
+  }
 }
