@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="ThirdParty/bootstrap/dist/css/bootstrap-theme.css">
     <link rel="stylesheet" type="text/css" href="Stylesheet/style.css">
     <link rel="stylesheet" type="text/css" media="print" href="Stylesheet/print.css">
-    
+
     <script type="text/javascript" src="ThirdParty/layout/source/jquery/jquery-1.11.1.js"></script>
     <script type="text/javascript" src="ThirdParty/layout/source/jquery/jquery-ui-1.11.0.js"></script>
     
@@ -49,6 +49,7 @@
     <script type="text/javascript" src="ThirdParty/codemirror/addon/edit/closetag.js"></script>
     <script type="text/javascript" src="ThirdParty/codemirror/addon/edit/continuelist.js"></script>
     <script type="text/javascript" src="ThirdParty/codemirror/addon/edit/trailingspace.js"></script>
+    <script type="text/javascript" src="ThirdParty/codemirror/addon/display/placeholder.js"></script>
     
     <script type="text/javascript" src="ThirdParty/codemirror/mode/xml/xml.js"></script>
     <script type="text/javascript" src="ThirdParty/codemirror/mode/css/css.js"></script>
@@ -72,7 +73,7 @@
 <body>
     <!-- UI Layout with Code Editors -->
     <div id="container">
-        <div class="pane ui-layout-north">
+        <div class="pane ui-layout-east">
             <div id="editor-jade-wrapper">
                 <textarea id="editor-jade" style="display: none;"></textarea>
             </div>
@@ -93,17 +94,11 @@
         <button class="btn btn-danger" id="trashCode" onclick="trashCode();" title="Remove the code">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
         </button>
-        <button class="btn btn-success" id="showOwnCode" onclick="showOwnCode();" title="Generate example HTML and Jade code">
-            <span class="glyphicon glyphicon-tower" aria-hidden="true"></span>
-        </button>
         <button class="btn btn-success" id="parseJade" onclick="parseJade();" title="Convert Jade to HTML">
-            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
         </button>
         <button class="btn btn-success" id="parseHTML" onclick="parseHTML();" title="Convert HTML to Jade">
-            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-        </button>
-        <button class="btn btn-success" id="print-button" title="Beautify and print"  onclick="showPrintModal();">
-            <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
         </button>
     </div>
     <!-- on small devices and smaler -->
@@ -114,17 +109,11 @@
         <button class="btn btn-danger" id="trashCode" onclick="trashCode();" title="Remove the code">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
         </button>
-        <button class="btn btn-success" id="showOwnCode" onclick="showOwnCode();" title="Generate example HTML and Jade code">
-            <span class="glyphicon glyphicon-tower" aria-hidden="true"></span>
-        </button>
         <button class="btn btn-success" id="parseJade" onclick="parseJade();" title="Convert Jade to HTML">
-            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
         </button>
         <button class="btn btn-success" id="parseHTML" onclick="parseHTML();" title="Convert HTML to Jade">
-            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-        </button>
-        <button class="btn btn-success" id="print-button" title="Beautify and print"  onclick="showPrintModal();">
-            <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
         </button>
     </div>
     
@@ -134,9 +123,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                  <div class="modal-header" style="display:flex;padding:5px;" layout="row" layout-align="center">
-                    <button type="button" class="btn btn-success" ria-label="CloseLabel" data-dismiss="modal" style="padding-right: 20px;">Close</button>
                     <h4 class="modal-title text-center" id="printModalLabel" style="width:100%;padding-top: 5px;">Jade2HTML2Jade</h4>
-                    <button type="button" class="btn btn-success" ria-label="CloseLabel" data-dismiss="modal" style="padding-right: 20px;">Close</button>
+                    <button type="button" class="btn btn-success" ria-label="CloseLabel" data-dismiss="modal">Close</button>
                 </div>
                 <div class="modal-body">
                     <p class="text-center">
@@ -149,56 +137,30 @@
                         <br />You can find the source code on <a href="https://github.com/JumpLink/jade2html2jade">GitHub</a>.
                     </p>
                     <p class="text-center">
-                        I am a programmer and freelancer, just contact me!
-                        <dl class="dl-horizontal">
-                          <dt title="Email"><span class="glyphicon glyphicon-envelope"></span></dt>
-                          <dd><a href="mailto:pascal@jumplink.eu">pascal@jumplink.eu</a></dd>
-                          <dt title="Phone"><span class="glyphicon glyphicon-phone"></span></dt>
-                          <dd><a href="tel:+4915756431988">+49(0)157 56431988</a></dd>
-                          <dt title="Web"><span class="glyphicon glyphicon-home"></span></dt>
-                          <dd><a href="http://www.jumplink.eu/">jumplink.eu</a></dd>
-                        </dl>
+                        Based on <a href="https://github.com/JumpLink/jade2html2jade">jade2html2jade</a>,
+                        <br>
+                        Modified by 85ido.
                     </p>
                     <p class="text-center">Copyright (c) 2015 Pascal Garber</p>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Print Modal -->
-    <div class="modal fade" id="printModal" tabindex="-1" role="dialog" aria-labelledby="printModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                 <div class="modal-header" style="display:flex;padding:5px;" layout="row" layout-align="center">
-                    <button type="button" class="btn btn-danger" ria-label="Cancel" data-dismiss="modal" style="padding-right: 20px;">Cancel</button>
-                    <h4 class="modal-title text-center" id="printModalLabel" style="width:100%;padding-top: 5px;">Print</h4>
-                    <button type="button" class="btn btn-success" ria-label="PrintLabel" onclick="preparePrint();" style="padding-right: 20px;">Print</button>
-                    
-                </div>
-                <div class="modal-body">
-                    <form>
-                      <div class="form-group">
-                        <label class="sr-only" for="page-title">Title</label>
-                        <input type="text" class="form-control" id="page-title" placeholder="Enter title">
-                      </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    
      <!-- Custom JavaScript -->
     <script type="text/javascript">
         var editorHtml;
         var editorJade;
         var htmlBeautifyOptions = {
-          'indent_inner_html': true,
-          'indent_size': 2,
-          'indent_char': ' ',
-          'wrap_line_length': 78,
-          'brace_style': 'expand',
-          'unformatted': ['a', 'sub', 'sup', 'b', 'i', 'u'],
-          'preserve_newlines': true,
-          'max_preserve_newlines': 5,
-          'indent_handlebars': false,
+            'indent_inner_html': true,
+            'indent_size': 2,
+            'indent_char': ' ',
+            'wrap_line_length': 78,
+            'brace_style': 'expand',
+            'unformatted': ['a', 'sub', 'sup', 'b', 'i', 'u'],
+            'preserve_newlines': true,
+            'max_preserve_newlines': 5,
+            'indent_handlebars': false,
         };
         var generalEditorOptions = {
             lineNumbers: true,
@@ -234,7 +196,11 @@
         // convert html from html edtor to jade in jade editor
         var parseHTML = function () {
             var htmlString = editorHtml.getValue();
-            Html2Jade.convertHtml(htmlString, {selectById: true}, function (err, jadeString) {
+            Html2Jade.convertHtml(htmlString, {
+                selectById: true,
+                donotencode: true,
+                noemptypipe: true
+            }, function (err, jadeString) {
               if(err) {
                   console.error(err);
               } else {
@@ -256,60 +222,21 @@
               }
             });
         }
-
-        // Load the HTML of this App into the HTML and Jade Editor
-        var showOwnCode = function () {
-            var htmlString = document.getElementById('aboutModal').innerHTML;
-            var cleanHtmlString = html_beautify(htmlString, htmlBeautifyOptions);
-            editorHtml.setValue(cleanHtmlString);
-            parseHTML();
-        }
-        
-        // Set the Html Title to print this in header (e.g. in chrome) 
-        var setPageTilte = function () {
-            var title = $('#page-title').val();
-            console.log(title);
-            document.title = title;
-        }
-        
+                
         // Remove the code from the editors
         var trashCode = function () {
             editorHtml.setValue('');
             editorJade.setValue('');
         }
 
-        var focusPageInput = function () {
-            $('#page-title').focus();
-        }
-
-        var showPrintModal = function () {
-            $('#printModal').modal('show');
-        }
-
-        var hidePrintModal = function () {
-            $('#printModal').modal('hide');
-        }
-
-        var preparePrint = function () {
-            editorHtml.setOption("lineWrapping", true );
-            editorJade.setOption("lineWrapping", true );
-            formatHTML();
-            setPageTilte();
-            hidePrintModal();
-            window.print();
-        }
-
-        $(document).ready(function() {
-            var optionsJade = jQuery.extend({mode: "jade"}, generalEditorOptions);
-            var optionsHtml = jQuery.extend({mode: "htmlmixed"}, generalEditorOptions);
-            $('#container').layout(); // makes border drag-and-scaleable
-            editorJade = CodeMirror.fromTextArea(document.getElementById("editor-jade"),optionsJade);
-            editorHtml = CodeMirror.fromTextArea(document.getElementById("editor-html"),optionsHtml);
+        $(window).on('load', function() {
+            var optionsJade = jQuery.extend({mode: 'jade', placeholder: 'Put Jade To Here'}, generalEditorOptions);
+            var optionsHtml = jQuery.extend({mode: 'htmlmixed', placeholder: 'Put HTML To Here'}, generalEditorOptions);
+            var layout = $('#container').layout(); // makes border drag-and-scaleable
+            layout.sizePane('east', window.outerWidth / 2);
+            editorJade = CodeMirror.fromTextArea(document.getElementById('editor-jade'),optionsJade);
+            editorHtml = CodeMirror.fromTextArea(document.getElementById('editor-html'),optionsHtml);
         });
-
-        $('#printModal').on('shown.bs.modal', function () {
-            focusPageInput();
-        })
     </script>
 </body>
 </html> 
